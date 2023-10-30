@@ -98,7 +98,7 @@ export default class App extends Component {
             Oops, some error occured... Error message: {this.state.error}
           </p>
         )}
-        <ImageGallery images={this.state.images} handleImage={this.openModal} />
+        <ImageGallery images={this.state.images} openModal={this.openModal} />
         {this.state.totalImages > 12 && <Button onClick={this.onClick} />}
         {this.state.modal.isOpen && (
           <Modal
