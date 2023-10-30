@@ -4,12 +4,12 @@ import css from './Modal.module.css';
 
 export default class Modal extends Component {
   componentDidMount() {
-    document.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keydown', this.onKeyDown);
     document.body.style.overflow = 'hidden';
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keydown', this.onKeyDown);
     document.body.style.overflow = 'auto';
   }
 
@@ -19,7 +19,7 @@ export default class Modal extends Component {
     }
   };
 
-  handleOverlay = event => {
+  handleBackdropClick = event => {
     if (event.target === event.currentTarget) {
       this.props.closeModal();
     }
@@ -27,7 +27,7 @@ export default class Modal extends Component {
 
   render() {
     return (
-      <div className={css.overlay} onClick={this.handleOverlay}>
+      <div className={css.overlay} onClick={this.handleBackdropClick}>
         <div className={css.modal}>
           <img
             className={css.img}
