@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import css from './Modal.module.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class Modal extends Component {
   componentDidMount() {
@@ -29,14 +29,13 @@ export default class Modal extends Component {
     return (
       <div className={css.overlay} onClick={this.handleOverlay}>
         <div className={css.modal}>
-          <img className={css.img} src={this.props.picture} alt="" />
+          <img
+            className={css.img}
+            src={this.props.currentImg}
+            alt={this.props.alt}
+          />
         </div>
       </div>
     );
   }
 }
-
-Modal.propTypes = {
-  handleOverlay: PropTypes.func.isRequired,
-  picture: PropTypes.string.isRequired,
-};
