@@ -3,7 +3,7 @@ import css from './ImageGallery.module.css';
 
 const ImageGallery = ({ images, openModal }) => {
   return (
-    <ul className={css.imageContainer} onClick={openModal}>
+    <ul className={css.imageContainer}>
       {images !== null &&
         images.map(image => (
           <ImageGalleryItem
