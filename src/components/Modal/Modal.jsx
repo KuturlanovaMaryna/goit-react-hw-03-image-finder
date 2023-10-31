@@ -28,7 +28,7 @@ export default class Modal extends Component {
         <div className={css.modal}>
           <img
             className={css.img}
-            src={this.props.largeImageURL}
+            src={this.props.currentImg}
             alt={this.props.alt}
           />
         </div>
