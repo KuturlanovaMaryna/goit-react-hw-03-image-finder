@@ -17,10 +17,14 @@ export default class App extends Component {
     input: null,
     currentPage: 1,
     totalImages: null,
-    // modalImage: null,
-    isOpen: false,
-    largeImage: null,
-    alt: null,
+    modalImage: null,
+    modal: {
+      isOpen: false,
+      modalData: {
+        largeImage: null,
+        alt: null,
+      },
+    },
   };
 
   fetchImages = async () => {
@@ -41,18 +45,15 @@ export default class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    if (this.state.currentPage !== prevState.currentPage) {
+    if (
+      this.state.currentPage !== prevState.currentPage ||
+      this.state.input !== prevState.input
+    ) {
       this.fetchImages();
-      const newImages = this.state.images;
-
-      this.setState({
-        images: [...prevState.images, ...newImages],
-      });
     }
   }
   onSubmit = value => {
-    this.setState({ input: value, images: [], page: 1 });
-    this.fetchImages();
+    this.setState({ input: value, images: [], currentPage: 1 }, () => {});
   };
 
   onClick = page => {
@@ -60,17 +61,25 @@ export default class App extends Component {
   };
   openModal = ({ largeImageURL, tags }) => {
     this.setState({
-      isOpen: true,
-      largeImage: largeImageURL,
-      alt: tags,
+      modal: {
+        isOpen: true,
+        modalData: {
+          largeImage: largeImageURL,
+          alt: tags,
+        },
+      },
     });
   };
 
   closeModal = () => {
     this.setState({
-      isOpen: false,
-      largeImage: null,
-      alt: null,
+      modal: {
+        isOpen: false,
+        modalData: {
+          largeImage: null,
+          alt: null,
+        },
+      },
     });
   };
 
@@ -88,10 +97,10 @@ export default class App extends Component {
         )}
         <ImageGallery images={this.state.images} openModal={this.openModal} />
         {this.state.totalImages > 12 && <Button onClick={this.onClick} />}
-        {this.state.isOpen && (
+        {this.state.modal.isOpen && (
           <Modal
-            currentImg={this.state.largeImage}
-            alt={this.state.alt}
+            currentImg={this.state.modal.modalData.largeImage}
+            alt={this.state.modal.modalData.alt}
             closeModal={this.closeModal}
           />
         )}
