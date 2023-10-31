@@ -33,10 +33,10 @@ export default class App extends Component {
       const { data } = await axios.get(
         `${this.state.URL}?q=${this.state.input}&page=${this.state.currentPage}&key=${this.state.API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
       );
-      this.setState({
-        images: data.hits,
+      this.setState(prevState => ({
+        images: [...prevState.images, ...data.hits],
         totalImages: data.totalHits,
-      });
+      }));
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
@@ -45,9 +45,8 @@ export default class App extends Component {
   };
 
   onSubmit = value => {
-    this.setState({ input: value }, () => {
-      this.fetchImages();
-    });
+    this.setState({ input: value, images: [], page: 1 });
+    this.fetchImages();
   };
 
   onClick = page => {
@@ -65,12 +64,12 @@ export default class App extends Component {
     }
   }
 
-  openModal = (imageImg, tags) => {
+  openModal = ({ largeImageURL, tags }) => {
     this.setState({
       modal: {
         isOpen: true,
         modalData: {
-          largeImage: imageImg,
+          largeImage: largeImageURL,
           alt: tags,
         },
       },

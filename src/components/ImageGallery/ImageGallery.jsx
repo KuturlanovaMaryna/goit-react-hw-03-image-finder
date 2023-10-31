@@ -12,6 +12,7 @@ const ImageGallery = ({ images, openModal }) => {
             id={image.id}
             onClick={openModal}
             largeImageURL={image.largeImageURL}
+            tags={image.tags}
           />
         ))}
     </ul>
