@@ -17,14 +17,10 @@ export default class App extends Component {
     input: null,
     currentPage: 1,
     totalImages: null,
-    modalImage: null,
-    modal: {
-      isOpen: false,
-      modalData: {
-        largeImage: null,
-        alt: null,
-      },
-    },
+    // modalImage: null,
+    isOpen: false,
+    largeImage: null,
+    alt: null,
   };
 
   fetchImages = async () => {
@@ -44,15 +40,6 @@ export default class App extends Component {
     }
   };
 
-  onSubmit = value => {
-    this.setState({ input: value, images: [], page: 1 });
-    this.fetchImages();
-  };
-
-  onClick = page => {
-    this.setState({ currentPage: page });
-  };
-
   componentDidUpdate(_, prevState) {
     if (this.state.currentPage !== prevState.currentPage) {
       this.fetchImages();
@@ -63,25 +50,27 @@ export default class App extends Component {
       });
     }
   }
+  onSubmit = value => {
+    this.setState({ input: value, images: [], page: 1 });
+    this.fetchImages();
+  };
 
+  onClick = page => {
+    this.setState({ currentPage: page });
+  };
   openModal = ({ largeImageURL, tags }) => {
     this.setState({
-      modal: {
-        isOpen: true,
-        modalData: {
-          largeImage: largeImageURL,
-          alt: tags,
-        },
-      },
+      isOpen: true,
+      largeImage: largeImageURL,
+      alt: tags,
     });
   };
 
   closeModal = () => {
     this.setState({
-      modal: {
-        isOpen: false,
-        modalData: null,
-      },
+      isOpen: false,
+      largeImage: null,
+      alt: null,
     });
   };
 
@@ -99,10 +88,10 @@ export default class App extends Component {
         )}
         <ImageGallery images={this.state.images} openModal={this.openModal} />
         {this.state.totalImages > 12 && <Button onClick={this.onClick} />}
-        {this.state.modal.isOpen && (
+        {this.state.isOpen && (
           <Modal
-            currentImg={this.state.modal.modalData.largeImage}
-            alt={this.state.modal.modalData.alt}
+            currentImg={this.state.largeImage}
+            alt={this.state.alt}
             closeModal={this.closeModal}
           />
         )}
